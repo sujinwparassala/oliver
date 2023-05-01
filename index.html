@@ -461,8 +461,34 @@ height:100%;
 
 </style>
 </head>
-<body>
+<body onload="startTime()">
+<div id="txt"></div>
+<script>
+function startTime() {
+  const today = new Date();
+  let h = today.getHours();
+  let m = today.getMinutes();
+  let s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('txt').innerHTML =  h + ":" + m + ":" + s;
+  setTimeout(startTime, 1000);
+}
 
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <div class="header">
   <h1><center><marquee position="scroll"> oliver.co.in</marquee></h1>
 	 <p><b><button class="button"><a href="#">HOME &nbsp;</a></button></b>
