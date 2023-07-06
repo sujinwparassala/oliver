@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Resizer</title>
+<style>
+.header {
+  background-color: #9933cc;
+  color: #ffffff;
+  padding: 15px;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 7px #999;
+}
+	
+.button:hover
+{
+background-color:#3e8e41
+}
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+</style>
+    <script>
+      function resizeImage() {
+        var input = document.getElementById("image-input");
+        var output = document.getElementById("image-output");
+        var widthInput = document.getElementById("width-input");
+        var heightInput = document.getElementById("height-input");
+
+        var width = parseInt(widthInput.value);
+        var height = parseInt(heightInput.value);
+
+        if (isNaN(width) || isNaN(height)) {
+          alert("Please enter valid dimensions.");
+          return;
+        }
+
+        var image = new Image();
+        image.onload = function() {
+          // Create a canvas element to draw the resized image
+          var canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          var ctx = canvas.getContext("2d");
+
+          // Draw the resized image on the canvas
+          ctx.drawImage(image, 0, 0, width, height);
+
+          // Convert the canvas image to a data URL
+          var resizedDataURL = canvas.toDataURL("image/jpeg");
+
+          // Display the resized image
+          output.src = resizedDataURL;
+
+          // Create download links
+          var downloadLink = document.createElement("a");
+          downloadLink.href = resizedDataURL;
+          downloadLink.download = "resized_image.jpg";
+          downloadLink.innerHTML = "Download Resized Image";
+          document.getElementById("download-links").appendChild(downloadLink);
+        };
+
+        // Load the selected image
+        var fileReader = new FileReader();
+        fileReader.onload = function(e) {
+          image.src = e.target.result;
+        };
+        fileReader.readAsDataURL(input.files[0]);
+      }
+    </script>
+  </head>
+  <body>
+  <div class="header">
+  <h1><center><marquee position="scroll"> oliver.co.in</marquee></h1>
+	 <p><b><button class="button"><a href="#">HOME &nbsp;</a></button></b>
+         <b><button class="button"><a href="contact.html">CONTACTS &nbsp;</a></button>
+        <b><button class="button"><a href="projects.html">SERVICES &nbsp;</a></button>
+	<b><button class="button"><a href="contact.html">MAP &nbsp;</a></button>
+    <h1>Image Resizer</h1>
+    <input type="file" id="image-input" accept="image/jpeg" />
+    <br />
+    <label for="width-input">Width:</label>
+    <input type="number" id="width-input" />
+    <br />
+    <label for="height-input">Height:</label>
+    <input type="number" id="height-input" />
+    <br />
+    <button onclick="resizeImage()">Resize Image</button>
+    <br />
+    <div id="download-links"></div>
+  </body>
+</html>
